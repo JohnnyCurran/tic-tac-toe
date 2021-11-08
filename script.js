@@ -7,11 +7,11 @@ function gameFlow() {
     let displayWhosTurn = document.querySelector(".displayWhosTurn");
     displayWhosTurn.textContent = whosTurn;
     let boardPosition = 0
+
     gameBoard.forEach(square => {
         boardPosition++
         square.classList.add("position" + boardPosition)
         
-
         square.addEventListener("click", () => {
             if(whosTurn == "player1") {
                 if(square.textContent == "x" || square.textContent == "o") {return}
@@ -41,16 +41,10 @@ function gameFlow() {
     position8 = document.querySelector(".position8");
     position9 = document.querySelector(".position9");
 }
+
 function checkWinner() {
-    console.log(position1.textContent)
-    console.log(position2.textContent)
-    console.log(position3.textContent)
-    console.log(position4.textContent)
-    console.log(position5.textContent)
-    console.log(position6.textContent)
-    console.log(position7.textContent)
-    console.log(position8.textContent)
-    console.log(position9.textContent)
+
+
     if(position1.textContent == "x" && position2.textContent == "x" && position3.textContent == "x") {console.log("x is winner")}
     else if(position4.textContent == "x" && position5.textContent == "x" && position6.textContent == "x") {console.log("x is winner")}
     else if(position7.textContent == "x" && position8.textContent == "x" && position9.textContent == "x") {console.log("x is winner")}
@@ -64,16 +58,16 @@ function checkWinner() {
 
 
 
-    else if(position1.teotContent == "o" && position2.teotContent == "o" && position3.teotContent == "o") {console.log("o is winner")}
-    else if(position4.teotContent == "o" && position5.teotContent == "o" && position6.teotContent == "o") {console.log("o is winner")}
-    else if(position7.teotContent == "o" && position8.teotContent == "o" && position9.teotContent == "o") {console.log("o is winner")}
+    else if(position1.textContent == "o" && position2.textContent == "o" && position3.textContent == "o") {console.log("o is winner")}
+    else if(position4.textContent == "o" && position5.textContent == "o" && position6.textContent == "o") {console.log("o is winner")}
+    else if(position7.textContent == "o" && position8.textContent == "o" && position9.textContent == "o") {console.log("o is winner")}
 
-    else if(position1.teotContent == "o" && position4.teotContent == "o" && position7.teotContent == "o") {console.log("o is winner")}
-    else if(position2.teotContent == "o" && position5.teotContent == "o" && position8.teotContent == "o") {console.log("o is winner")}
-    else if(position3.teotContent == "o" && position6.teotContent == "o" && position9.teotContent == "o") {console.log("o is winner")}
+    else if(position1.textContent == "o" && position4.textContent == "o" && position7.textContent == "o") {console.log("o is winner")}
+    else if(position2.textContent == "o" && position5.textContent == "o" && position8.textContent == "o") {console.log("o is winner")}
+    else if(position3.textContent == "o" && position6.textContent == "o" && position9.textContent == "o") {console.log("o is winner")}
 
-    else if(position1.teotContent == "o" && position5.teotContent == "o" && position9.teotContent == "o") {console.log("o is winner")}
-    else if(position3.teotContent == "o" && position5.teotContent == "o" && position7.teotContent == "o") {console.log("o is winner")}
+    else if(position1.textContent == "o" && position5.textContent == "o" && position9.textContent == "o") {console.log("o is winner")}
+    else if(position3.textContent == "o" && position5.textContent == "o" && position7.textContent == "o") {console.log("o is winner")}
 
 
 }
