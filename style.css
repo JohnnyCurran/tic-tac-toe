@@ -8,7 +8,7 @@
     height: 602px;
     border: 1px solid black;
 }
-.gameBoard {
+.gameBoardDivs {
     display: flex;
     justify-content: center;
     align-items: center;
