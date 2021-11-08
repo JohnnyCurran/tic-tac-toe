@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box
+}
+.gameBoardWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 602px;
+    height: 602px;
+    border: 1px solid black;
+}
+.gameBoard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    font-size: 70px;
+}
