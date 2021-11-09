@@ -13,6 +13,7 @@ var gameBoard = {
 
 function initGame () {
     let counter = 0;
+    playCounter = 0;
     gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
     let displayWhosTurn = document.querySelector(".displayWhosTurn");
     let whosTurn = player1.name;
@@ -20,6 +21,7 @@ function initGame () {
 
     gameBoardDivs.forEach((div) => {
         counter++;
+        
         div.classList.add(counter);
         //this["div" + counter] = document.getElementsByClassName([div.classList[1]]);
         
@@ -44,6 +46,7 @@ function initGame () {
                 }
                 displayWhosTurn.textContent = whosTurn + ` "${player2.symbol.toUpperCase()}" turn`;
                 player1.currentDiv = counter;
+                playCounter++
                 checkWinner();
             }
 
@@ -60,6 +63,7 @@ function initGame () {
                 }
                 displayWhosTurn.textContent = whosTurn + ` "${player1.symbol.toUpperCase()}" turn`;
                 player2.currentDiv = counter;
+                playCounter++
                 checkWinner();
             }
         });
@@ -67,19 +71,22 @@ function initGame () {
 };
 
 function checkWinner() {
+    isWinner = false;
     //check for tie
-    checkTieArr = [];
-    checkTieArr = [gameBoard.gameArray[0], gameBoard.gameArray[1], gameBoard.gameArray[2]]
-    checkTieArr = checkTieArr.flat()
-    //checkTieArr.every()
+    
+    
+
+    
+    
     
     //player 1 vertical
     for(let x = 0; x < 3; x++) {
         if(gameBoard.gameArray[0][x] == player1.symbol && 
             gameBoard.gameArray[0 + 1][x] == player1.symbol && 
             gameBoard.gameArray[0 + 2][x] == player1.symbol) {
-                
+                playCounter = 0;
                 player1.winCount++
+                isWinner = true;
                 announceWinner(player1.name, player1.symbol, player1.winCount);
 
         }
@@ -87,14 +94,18 @@ function checkWinner() {
         else if(gameBoard.gameArray[x][0] == player1.symbol && 
             gameBoard.gameArray[x][0 + 1] == player1.symbol && 
             gameBoard.gameArray[x][0 + 2] == player1.symbol) {
+                playCounter = 0;
                 player1.winCount++
+                isWinner = true;
                 announceWinner(player1.name, player1.symbol, player1.winCount);
         }
        //player 2 vertical
         else if(gameBoard.gameArray[0][x] == player2.symbol && 
             gameBoard.gameArray[0 + 1][x] == player2.symbol && 
             gameBoard.gameArray[0 + 2][x] == player2.symbol) {
+                playCounter = 0;
                 player2.winCount++
+                isWinner = true;
                 announceWinner(player2.name, player2.symbol, player2.winCount);
         }
         //player 2 horizontal
@@ -102,6 +113,8 @@ function checkWinner() {
             gameBoard.gameArray[x][0 + 1] == player2.symbol && 
             gameBoard.gameArray[x][0 + 2] == player2.symbol) {
                 announceWinner(player2.name, player2.symbol, player2.winCoun);
+                playCounter = 0;
+                isWinner = true;
                 player2.winCount++;
         }
     }
@@ -109,27 +122,51 @@ function checkWinner() {
         if(gameBoard.gameArray[0][0] == player1.symbol && 
             gameBoard.gameArray[1][1] == player1.symbol && 
             gameBoard.gameArray[2][2] == player1.symbol) {
-                player1.winCount++
+                isWinner = true;
+                player1.winCount++;
+                playCounter = 0;
                 announceWinner(player1.name, player1.symbol, player1.winCount);
         }
         else if(gameBoard.gameArray[0][2] == player1.symbol && 
             gameBoard.gameArray[1][1] == player1.symbol && 
             gameBoard.gameArray[2][0] == player1.symbol) {
+                isWinner = true;
                 player1.winCount++
+                playCounter = 0;
                 announceWinner(player1.name, player1.symbol, player1.winCount);
         }
         //player 2 diagonal
         else if(gameBoard.gameArray[0][0] == player2.symbol && 
             gameBoard.gameArray[1][1] == player2.symbol && 
             gameBoard.gameArray[2][2] == player2.symbol) {
-                player2.winCount++
+                isWinner = true;
+                player2.winCount++;
+                playCounter = 0;
                 announceWinner(player2.name, player2.symbol, player2.winCount);
         }
         else if(gameBoard.gameArray[0][2] == player2.symbol && 
             gameBoard.gameArray[1][1] == player2.symbol && 
             gameBoard.gameArray[2][0] == player2.symbol) {
+                isWinner = true;
                 player2.winCount++
+                playCounter = 0;
                 announceWinner(player2.name, player2.symbol, player2.winCount);
+        }
+        //Check for a tie
+        if(playCounter >= 9 && isWinner == false) {
+            alert("It's a tie!");
+            gameBoard = {
+                gameArray : [["1", "2", "3"], 
+                            ["4", "5", "6"],
+                            ["7", "8", "9"]],
+            }
+            for(let x = 0; x < 9; x++) {
+                gameBoardDivs[x].textContent = ""
+            };
+            playCounter = 0
+            
+            
+
         }
         
     
@@ -141,9 +178,7 @@ function checkWinner() {
 function announceWinner(name, winner, winCount) {
     
     alert(`${name}:"${winner}" is the winner! `)
-    for(let x = 0; x < 9; x++) {
-        
-    }
+    
     
     gameBoard = {
         gameArray : [["1", "2", "3"], 
