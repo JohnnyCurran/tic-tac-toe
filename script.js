@@ -1,6 +1,7 @@
 const players = (name, symbol, winCount) => {
     return { name, symbol, winCount };
 };
+
 const player1 = players("player 1", "x", 0);
 const player2 = players("player 2", "o", 0);
 
@@ -9,7 +10,6 @@ var gameBoard = {
                 ["4", "5", "6"],
                 ["7", "8", "9"]],
 }
-
 
 function initGame () {
     let counter = 0;
@@ -42,7 +42,6 @@ function initGame () {
                         }
                     }
                 }
-                
                 displayWhosTurn.textContent = whosTurn + ` "${player2.symbol.toUpperCase()}" turn`;
                 player1.currentDiv = counter;
                 checkWinner();
@@ -75,7 +74,6 @@ function checkWinner() {
             gameBoard.gameArray[0 + 2][x] == player1.symbol) {
                 
                 player1.winCount++
-                //gameBoardDivs.textContent = "";
                 announceWinner(player1.name, player1.symbol, player1.winCount);
 
         }
@@ -84,7 +82,6 @@ function checkWinner() {
             gameBoard.gameArray[x][0 + 1] == player1.symbol && 
             gameBoard.gameArray[x][0 + 2] == player1.symbol) {
                 player1.winCount++
-                //gameBoardDivs.textContent = "";
                 announceWinner(player1.name, player1.symbol, player1.winCount);
         }
        //player 2 vertical
@@ -92,7 +89,6 @@ function checkWinner() {
             gameBoard.gameArray[0 + 1][x] == player2.symbol && 
             gameBoard.gameArray[0 + 2][x] == player2.symbol) {
                 player2.winCount++
-                //gameBoardDivs.textContent = "";
                 announceWinner(player2.name, player2.symbol, player2.winCount);
         }
         //player 2 horizontal
@@ -100,9 +96,7 @@ function checkWinner() {
             gameBoard.gameArray[x][0 + 1] == player2.symbol && 
             gameBoard.gameArray[x][0 + 2] == player2.symbol) {
                 announceWinner(player2.name, player2.symbol, player2.winCoun);
-                player2.winCount++
-                //gameBoardDivs.textContent = "";
-                
+                player2.winCount++;
         }
     }
         //player 1 diagonal
@@ -110,14 +104,12 @@ function checkWinner() {
             gameBoard.gameArray[1][1] == player1.symbol && 
             gameBoard.gameArray[2][2] == player1.symbol) {
                 player1.winCount++
-                //gameBoardDivs.textContent = "";
                 announceWinner(player1.name, player1.symbol, player1.winCount);
         }
         else if(gameBoard.gameArray[0][2] == player1.symbol && 
             gameBoard.gameArray[1][1] == player1.symbol && 
             gameBoard.gameArray[2][0] == player1.symbol) {
                 player1.winCount++
-                //gameBoardDivs.textContent = "";
                 announceWinner(player1.name, player1.symbol, player1.winCount);
         }
         //player 2 diagonal
@@ -125,14 +117,12 @@ function checkWinner() {
             gameBoard.gameArray[1][1] == player2.symbol && 
             gameBoard.gameArray[2][2] == player2.symbol) {
                 player2.winCount++
-                //gameBoardDivs.textContent = "";
                 announceWinner(player2.name, player2.symbol, player2.winCount);
         }
         else if(gameBoard.gameArray[0][2] == player2.symbol && 
             gameBoard.gameArray[1][1] == player2.symbol && 
             gameBoard.gameArray[2][0] == player2.symbol) {
                 player2.winCount++
-                //gameBoardDivs.textContent = "";
                 announceWinner(player2.name, player2.symbol, player2.winCount);
         }
     
