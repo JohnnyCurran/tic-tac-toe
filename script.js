@@ -29,7 +29,7 @@ function initGame () {
                 div.textContent == player2.symbol) {return}
                 
             //if div is unplayed loop through gameBoard.gameArray to find the index...
-            //of pointerNum (witch is this div's class number (1-9) that was clicked)...
+            //of pointerNum (witch is this div's class number (1-9))...
             //and also splice the play ("x" or "o") into the array.
             if(whosTurn == player1.name) {
                 whosTurn = player2.name;
@@ -67,8 +67,14 @@ function initGame () {
 };
 
 function checkWinner() {
+    //check for tie
+    checkTieArr = [];
+    checkTieArr = [gameBoard.gameArray[0], gameBoard.gameArray[1], gameBoard.gameArray[2]]
+    checkTieArr = checkTieArr.flat()
+    //checkTieArr.every()
+    
+    //player 1 vertical
     for(let x = 0; x < 3; x++) {
-        //player 1 vertical
         if(gameBoard.gameArray[0][x] == player1.symbol && 
             gameBoard.gameArray[0 + 1][x] == player1.symbol && 
             gameBoard.gameArray[0 + 2][x] == player1.symbol) {
@@ -85,7 +91,7 @@ function checkWinner() {
                 announceWinner(player1.name, player1.symbol, player1.winCount);
         }
        //player 2 vertical
-        if(gameBoard.gameArray[0][x] == player2.symbol && 
+        else if(gameBoard.gameArray[0][x] == player2.symbol && 
             gameBoard.gameArray[0 + 1][x] == player2.symbol && 
             gameBoard.gameArray[0 + 2][x] == player2.symbol) {
                 player2.winCount++
@@ -125,6 +131,7 @@ function checkWinner() {
                 player2.winCount++
                 announceWinner(player2.name, player2.symbol, player2.winCount);
         }
+        
     
 }
 // [["1", "2", "3"], 
@@ -154,6 +161,10 @@ function announceWinner(name, winner, winCount) {
        
    }
     
+}
+
+function announceTie() {
+    alert("its a tie")
 }
 
 
