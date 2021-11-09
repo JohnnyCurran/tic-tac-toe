@@ -1,8 +1,8 @@
-const players = (name, symbol, winCount, currentDiv) => {
-    return { name, symbol, winCount, currentDiv };
+const players = (name, symbol, winCount) => {
+    return { name, symbol, winCount };
 };
-const player1 = players("player 1", "x", 0, 0);
-const player2 = players("player 2", "o", 0, 0);
+const player1 = players("player 1", "x", 0);
+const player2 = players("player 2", "o", 0);
 
 var gameBoard = {
     gameArray : [["1", "2", "3"], 
@@ -76,7 +76,7 @@ function checkWinner() {
                 
                 player1.winCount++
                 //gameBoardDivs.textContent = "";
-                announceWinner(player1.name, player1.symbol, player1.winCount, player1.currentDiv);
+                announceWinner(player1.name, player1.symbol, player1.winCount);
 
         }
         //player 1 horizontal
@@ -85,7 +85,7 @@ function checkWinner() {
             gameBoard.gameArray[x][0 + 2] == player1.symbol) {
                 player1.winCount++
                 //gameBoardDivs.textContent = "";
-                announceWinner(player1.name, player1.symbol, player1.winCount, player1.currentDiv);
+                announceWinner(player1.name, player1.symbol, player1.winCount);
         }
        //player 2 vertical
         if(gameBoard.gameArray[0][x] == player2.symbol && 
@@ -93,13 +93,13 @@ function checkWinner() {
             gameBoard.gameArray[0 + 2][x] == player2.symbol) {
                 player2.winCount++
                 //gameBoardDivs.textContent = "";
-                announceWinner(player2.name, player2.symbol, player2.winCount, player2.currentDiv);
+                announceWinner(player2.name, player2.symbol, player2.winCount);
         }
         //player 2 horizontal
         else if(gameBoard.gameArray[x][0] == player2.symbol && 
             gameBoard.gameArray[x][0 + 1] == player2.symbol && 
             gameBoard.gameArray[x][0 + 2] == player2.symbol) {
-                announceWinner(player2.name, player2.symbol, player2.winCount, player2.currentDiv);
+                announceWinner(player2.name, player2.symbol, player2.winCoun);
                 player2.winCount++
                 //gameBoardDivs.textContent = "";
                 
@@ -111,14 +111,14 @@ function checkWinner() {
             gameBoard.gameArray[2][2] == player1.symbol) {
                 player1.winCount++
                 //gameBoardDivs.textContent = "";
-                announceWinner(player1.name, player1.symbol, player1.winCount, currentDiv);
+                announceWinner(player1.name, player1.symbol, player1.winCount);
         }
         else if(gameBoard.gameArray[0][2] == player1.symbol && 
             gameBoard.gameArray[1][1] == player1.symbol && 
             gameBoard.gameArray[2][0] == player1.symbol) {
                 player1.winCount++
                 //gameBoardDivs.textContent = "";
-                announceWinner(player1.name, player1.symbol, player1.winCount, currentDiv);
+                announceWinner(player1.name, player1.symbol, player1.winCount);
         }
         //player 2 diagonal
         else if(gameBoard.gameArray[0][0] == player2.symbol && 
@@ -126,14 +126,14 @@ function checkWinner() {
             gameBoard.gameArray[2][2] == player2.symbol) {
                 player2.winCount++
                 //gameBoardDivs.textContent = "";
-                announceWinner(player2.name, player2.symbol, player2.winCount, currentDiv);
+                announceWinner(player2.name, player2.symbol, player2.winCount);
         }
         else if(gameBoard.gameArray[0][2] == player2.symbol && 
             gameBoard.gameArray[1][1] == player2.symbol && 
             gameBoard.gameArray[2][0] == player2.symbol) {
                 player2.winCount++
                 //gameBoardDivs.textContent = "";
-                announceWinner(player2.name, player2.symbol, player2.winCount, currentDiv);
+                announceWinner(player2.name, player2.symbol, player2.winCount);
         }
     
 }
@@ -141,7 +141,7 @@ function checkWinner() {
 // ["4", "5", "6"],
 // ["7", "8", "9"]],
 
-function announceWinner(name, winner, winCount, currentDiv) {
+function announceWinner(name, winner, winCount) {
     
     alert(`${name}:"${winner}" is the winner! `)
     for(let x = 0; x < 9; x++) {
