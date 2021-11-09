@@ -25,8 +25,9 @@ function initGame () {
         this["div" + counter] = document.getElementsByClassName([div.classList[1]]);
         
         div.addEventListener("click", () => {
-
+            //console.log
             if(whosTurn == player1.name) {
+                whosTurn = player2.name;
                 div.textContent = player1.symbol;
                 let pointerNum = div.classList[1];
                 for(let y = 0; y < 3; y++) {
@@ -34,10 +35,26 @@ function initGame () {
                     for(let x = 0; x < 3; x++) {
                         if(pointerNum == gameBoard.gameArray[y][x]) {
                             gameBoard.gameArray[y].splice(x, 1, "x")
-                        };
-                    };
-                };
-                whosTurn == player2.name
+                        }
+                    }
+                }
+               
+                return{};
+            }
+
+            else if(whosTurn == player2.name) {
+                div.textContent = player2.symbol;
+                let pointerNum = div.classList[1];
+                for(let y = 0; y < 3; y++) {
+                
+                    for(let x = 0; x < 3; x++) {
+                        if(pointerNum == gameBoard.gameArray[y][x]) {
+                            gameBoard.gameArray[y].splice(x, 1, "o")
+                        }
+                    }
+                }
+                whosTurn = player1.name
+                return{};
             };
             
         });
@@ -46,7 +63,3 @@ function initGame () {
 };
 
 
-//     index = gameBoard.gameArray.findIndex(items => items.uniqueId == parseInt(deleteBtn.className))
-//         console.log(index)
-//         //myLibrary.splice(index, 1)
-        
