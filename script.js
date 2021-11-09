@@ -17,7 +17,7 @@ function initGame () {
     let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
     let displayWhosTurn = document.querySelector(".displayWhosTurn");
     let whosTurn = player1.name;
-    displayWhosTurn.textContent = whosTurn
+    displayWhosTurn.textContent = whosTurn + ` "${player1.symbol.toUpperCase()}" turn`;
 
     gameBoardDivs.forEach((div) => {
         counter++;
@@ -26,10 +26,11 @@ function initGame () {
         
         div.addEventListener("click", () => {
             //first check if div has already been played
-            if(div.textContent == "x" || div.textContent == "o") {return}
+            if(div.textContent == player1.symbol || 
+                div.textContent == player2.symbol) {return}
             
             //if div is unplayed loop through gameBoard.gameArray to find the index...
-            //of pointerNum (witch is this div class number (1-9) that was clicked)...
+            //of pointerNum (witch is this div's class number (1-9) that was clicked)...
             //and also splice the play ("x" or "o") into the array.
             if(whosTurn == player1.name) {
                 whosTurn = player2.name;
@@ -42,6 +43,7 @@ function initGame () {
                         }
                     }
                 }
+                displayWhosTurn.textContent = whosTurn + ` "${player2.symbol.toUpperCase()}" turn`;
                 checkWinner();
             }
 
@@ -56,6 +58,7 @@ function initGame () {
                         }
                     }
                 }
+                displayWhosTurn.textContent = whosTurn + ` "${player1.symbol.toUpperCase()}" turn`;
                 checkWinner();
             }
         });
