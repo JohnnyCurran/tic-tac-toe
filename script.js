@@ -35,8 +35,10 @@ let display = {
         let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
         let displayWhosTurn = document.querySelector(".displayWhosTurn");
 
-        displayWhosTurn.innerHTML = (`${playerMoves.whosTurn.name}'s turn  -${playerMoves.whosTurn.symbol}-`) + "<br />" +
-        (`Score: `) + "<br />" + (`${player1.name}: ${player1.winCount}`) + "<br />" + (`${player2.name}: ${player2.winCount}`)
+        displayWhosTurn.innerHTML = 
+        (`${playerMoves.whosTurn.symbol} - ${playerMoves.whosTurn.name}'s turn`) + "<br />" +
+        (`Score: `) + "<br />" + (`${player1.symbol} - ${player1.name}: ${player1.winCount}`) + "<br />" + 
+        (`${player2.symbol} - ${player2.name}: ${player2.winCount}`);
 
         let arrayIndex = 0;
         gameBoardDivs.forEach((div) => {
@@ -83,8 +85,6 @@ let playerMoves = {
             });
         });
     }
-
-    
 };
 
 let determineWinner = {
