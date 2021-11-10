@@ -1,48 +1,52 @@
-//todo make diagonal check work
-let player = (name, symbol) => {
-    return {name, symbol}
+
+let player = (name, symbol, winCount) => {
+    return {name, symbol, winCount}
 }
 
+const player1 = player("player 1", "X", 0);
+const player2 = player("player 2", "O", 0);
 
-let display = (() => {
 
-    let gameArray = ["", "", "", "", "", "", "", "", ""];
+let display = {
+
+    gameArray : ["", "", "",
+                "", "", "",
+                "", "", ""],
+    clearDisplay : function() {
+        for(let x = 0; x < 9; x++) {
+            display.gameArray.splice(x, 1, "")
+        };
+        display.populateDisplay();
+
+    },
                     
-    let addDivClassNames = function() {
+    addDivClassNames : function() {
         let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
         let divClassName = 0;
         gameBoardDivs.forEach((div) => {
             divClassName++
             div.classList.add(divClassName)
         })
-        populateDisplay()
-    }
+        display.populateDisplay()
+    },
 
-    let populateDisplay = function() {
+    populateDisplay : function() {
         let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
         let arrayIndex = 0;
         gameBoardDivs.forEach((div) => {
-            div.textContent = gameArray[arrayIndex];
+            div.textContent = display.gameArray[arrayIndex];
             arrayIndex++;
         })
     }
+};
 
-    return {
-        addDivClassNames : addDivClassNames,
-        gameArray : gameArray,
-        populateDisplay : populateDisplay
-        
-    }
-})();
-const player1 = player("player 1", "X");
-const player2 = player("player 2", "O");
-let playerMoves = (() => {
 
+let playerMoves = {
     
-    let whosTurn = player1.name;
-    
+    whosTurn : player1.name,
 
-    let move = function() {
+    move : function() {
+        let playCounter = 0;
         let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
         
         gameBoardDivs.forEach((div) => {
@@ -54,67 +58,77 @@ let playerMoves = (() => {
                         return;
                 }
 
-                else if(whosTurn == player1.name) {
-                    whosTurn = player2.name;
-                    display.gameArray.splice(div.classList[1] -1, 1, player1.symbol)
+                else if(playerMoves.whosTurn == player1.name) {
+                    playerMoves.whosTurn = player2.name;
+                    display.gameArray.splice(div.classList[1] -1, 1, player1.symbol);
+                    playCounter++;
+                    console.log(playCounter)
                     display.populateDisplay();
                     determineWinner.checkWinner();
                 }
 
-                else if(whosTurn == player2.name) {
-                    whosTurn = player1.name;
+                else if(playerMoves.whosTurn == player2.name) {
+                    playerMoves.whosTurn = player1.name;
                     display.gameArray.splice(div.classList[1] - 1, 1, player2.symbol);
+                    playCounter++;
+                    console.log(playCounter)
                     display.populateDisplay();
                     determineWinner.checkWinner();
                 };
             });
         });
-    };
+    },
 
-    return {
-        move : move
-    }
-})();
-
-
-let determineWinner = (() => {
     
-    let checkWinner = function() {
-        for(let x = 1; x < 3; x++) {
-            
-            for(let d = 0, e = 4, f = 8, a = 0, b = 1, c = 2, w = 0, y = 3, z = 6; y < 9; w++, y++, z++) {
-                //vertical
-                if(display.gameArray[w] == eval("player" + x).symbol && 
-                display.gameArray[y] == eval("player" + x).symbol && 
-                display.gameArray[z] == eval("player" + x).symbol) {
-                    console.log("vertical winner");
-                }
-                //horizontal
-                else if(display.gameArray[a] == eval("player" + x).symbol && 
-                display.gameArray[b] == eval("player" + x).symbol && 
-                display.gameArray[c] == eval("player" + x).symbol) {
-                    a += 3, b += 3, c += 3;
-                    console.log("horizontal winner")
+};
 
-                }
-                
-                //diagonal
-                else if(display.gameArray[d] == eval("player" + x).symbol && 
-                display.gameArray[e] == eval("player" + x).symbol && 
-                display.gameArray[f] == eval("player" + x).symbol) {
-                    f = 6, d = 2;
-                    console.log("diagonal winner")
+let determineWinner = {
+    
+    checkWinner : function() {
 
-                }
+        let b = 0, c = 1, d = 2, e = 0, f = 3, g = 6, h = 0, i = 4, j = 8;
+
+        for(let a = 1; a < 3; a++) {
+            //vertical
+            if(display.gameArray[e] == eval("player" + a).symbol && 
+            display.gameArray[f] == eval("player" + a).symbol && 
+            display.gameArray[g] == eval("player" + a).symbol) {
+                eval("player" + a).winCount++;
+                determineWinner.announceWinnner(eval("player" + a).name, eval("player" + a).symbol, eval("player" + a).winCount);
+                console.log("vertical winner");
+            }
+            //horizontal
+            else if(display.gameArray[b] == eval("player" + a).symbol && 
+            display.gameArray[c] == eval("player" + a).symbol && 
+            display.gameArray[d] == eval("player" + a).symbol) {
+                b += 3, c += 3, d += 3;
+                eval("player" + a).winCount++;
+                determineWinner.announceWinnner(eval("player" + a).name, eval("player" + a).symbol, eval("player" + a).winCount);
+                console.log("horizontal winner");
+            }
+            //diagonal
+            else if(display.gameArray[h] == eval("player" + a).symbol && 
+            display.gameArray[i] == eval("player" + a).symbol && 
+            display.gameArray[j] == eval("player" + a).symbol) {
+                eval("player" + a).winCount++;
+                determineWinner.announceWinnner(eval("player" + a).name, eval("player" + a).symbol, eval("player" + a).winCount);
+                console.log("diagonal winner");
+            }
+            //diagonal
+            else if(display.gameArray[h + 2] == eval("player" + a).symbol && 
+            display.gameArray[i] == eval("player" + a).symbol && 
+            display.gameArray[j - 2] == eval("player" + a).symbol) {
+                eval("player" + a).winCount++;
+                determineWinner.announceWinnner(eval("player" + a).name, eval("player" + a).symbol, eval("player" + a).winCount);
+                console.log("diagonal winner");
             }
         }
+    },
+
+    announceWinnner : function(name, winner, winCount) {
+        console.log({name, winner, winCount})
+        display.clearDisplay();
     }
-    // ["0", "1", "2",
-    //  "3", "4", "5",
-    //   "6", "7", "8"];
-    
-    return {
-        checkWinner : checkWinner
-    }
-})();
+
+};
 
