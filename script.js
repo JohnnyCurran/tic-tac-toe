@@ -16,6 +16,7 @@ let display = {
         for(let x = 0; x < 9; x++) {
             display.gameArray.splice(x, 1, "")
         };
+        playerMoves.playCounter = 0;
         display.populateDisplay();
 
     },
@@ -44,9 +45,10 @@ let display = {
 let playerMoves = {
     
     whosTurn : player1.name,
+    playCounter : 0,
 
     move : function() {
-        let playCounter = 0;
+        
         let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
         
         gameBoardDivs.forEach((div) => {
@@ -57,21 +59,19 @@ let playerMoves = {
                     display.gameArray[div.classList[1] - 1] == player2.symbol) {
                         return;
                 }
-
+                //player 1 turn
                 else if(playerMoves.whosTurn == player1.name) {
                     playerMoves.whosTurn = player2.name;
                     display.gameArray.splice(div.classList[1] -1, 1, player1.symbol);
-                    playCounter++;
-                    console.log(playCounter)
+                    playerMoves.playCounter++;
                     display.populateDisplay();
                     determineWinner.checkWinner();
                 }
-
+                //player 2 turn
                 else if(playerMoves.whosTurn == player2.name) {
                     playerMoves.whosTurn = player1.name;
                     display.gameArray.splice(div.classList[1] - 1, 1, player2.symbol);
-                    playCounter++;
-                    console.log(playCounter)
+                    playerMoves.playCounter++;
                     display.populateDisplay();
                     determineWinner.checkWinner();
                 };
@@ -84,50 +84,67 @@ let playerMoves = {
 
 let determineWinner = {
     
+    won : function(z) {
+        //this.checkWinner.isWinner = true;
+        eval("player" + z).winCount++;
+        determineWinner.announceWinnner(eval("player" + z).name, eval("player" + z).symbol, eval("player" + z).winCount);
+        
+        
+    },
+
     checkWinner : function() {
+        //let isWinner = false;
+        if(playerMoves.playCounter >= 9) {
+            console.log("its a tie!")
+            display.clearDisplay()
+        }
+        for(let z = 1; z < 3; z++) {
+            //diagonal
+            if(display.gameArray[0] == eval("player" + z).symbol && 
+            display.gameArray[4] == eval("player" + z).symbol && 
+            display.gameArray[8] == eval("player" + z).symbol) {
+                determineWinner.won(z);
+            }
 
-        let b = 0, c = 1, d = 2, e = 0, f = 3, g = 6, h = 0, i = 4, j = 8;
+            else if(display.gameArray[2] == eval("player" + z).symbol && 
+            display.gameArray[4] == eval("player" + z).symbol && 
+            display.gameArray[6] == eval("player" + z).symbol) {
+                determineWinner.won(z);
+            }
+            
+            let a = 0, b = 3, c = 6, 
+            d = 0, e = 1, f = 2;
 
-        for(let a = 1; a < 3; a++) {
             //vertical
-            if(display.gameArray[e] == eval("player" + a).symbol && 
-            display.gameArray[f] == eval("player" + a).symbol && 
-            display.gameArray[g] == eval("player" + a).symbol) {
-                eval("player" + a).winCount++;
-                determineWinner.announceWinnner(eval("player" + a).name, eval("player" + a).symbol, eval("player" + a).winCount);
-                console.log("vertical winner");
-            }
-            //horizontal
-            else if(display.gameArray[b] == eval("player" + a).symbol && 
-            display.gameArray[c] == eval("player" + a).symbol && 
-            display.gameArray[d] == eval("player" + a).symbol) {
-                b += 3, c += 3, d += 3;
-                eval("player" + a).winCount++;
-                determineWinner.announceWinnner(eval("player" + a).name, eval("player" + a).symbol, eval("player" + a).winCount);
-                console.log("horizontal winner");
-            }
-            //diagonal
-            else if(display.gameArray[h] == eval("player" + a).symbol && 
-            display.gameArray[i] == eval("player" + a).symbol && 
-            display.gameArray[j] == eval("player" + a).symbol) {
-                eval("player" + a).winCount++;
-                determineWinner.announceWinnner(eval("player" + a).name, eval("player" + a).symbol, eval("player" + a).winCount);
-                console.log("diagonal winner");
-            }
-            //diagonal
-            else if(display.gameArray[h + 2] == eval("player" + a).symbol && 
-            display.gameArray[i] == eval("player" + a).symbol && 
-            display.gameArray[j - 2] == eval("player" + a).symbol) {
-                eval("player" + a).winCount++;
-                determineWinner.announceWinnner(eval("player" + a).name, eval("player" + a).symbol, eval("player" + a).winCount);
-                console.log("diagonal winner");
+            for(let y = 0; y < 3; y++, a++, b++, c++) {
+
+                if(display.gameArray[a] == eval("player" + z).symbol && 
+                display.gameArray[b] == eval("player" + z).symbol && 
+                display.gameArray[c] == eval("player" + z).symbol) {
+                    determineWinner.won(z);
+                }
+            //horizontal    
+                else if(display.gameArray[d] == eval("player" + z).symbol && 
+                display.gameArray[e] == eval("player" + z).symbol && 
+                display.gameArray[f] == eval("player" + z).symbol) {
+                    determineWinner.won(z);
+                }
+                d += 3, e += 3, f += 3;
             }
         }
     },
 
     announceWinnner : function(name, winner, winCount) {
-        console.log({name, winner, winCount})
-        display.clearDisplay();
+        
+        
+        if(winCount >= 3) {
+            console.log(`${name} "${winner}" is the Champion! Games won:${winCount}`);
+            display.clearDisplay();
+        }
+        else {
+            console.log(`${name} "${winner}" is the winner! Rounds won :${winCount}`)
+            display.clearDisplay();
+        }
     }
 
 };
