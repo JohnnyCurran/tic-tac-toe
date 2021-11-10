@@ -12,13 +12,13 @@ let display = {
     gameArray : ["", "", "",
                 "", "", "",
                 "", "", ""],
+                
     clearDisplay : function() {
         for(let x = 0; x < 9; x++) {
             display.gameArray.splice(x, 1, "")
         };
         playerMoves.playCounter = 0;
         display.populateDisplay();
-
     },
                     
     addDivClassNames : function() {
@@ -33,6 +33,10 @@ let display = {
 
     populateDisplay : function() {
         let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
+        let displayWhosTurn = document.querySelector(".displayWhosTurn");
+
+        displayWhosTurn.textContent = (`${playerMoves.whosTurn.name}'s turn`);
+
         let arrayIndex = 0;
         gameBoardDivs.forEach((div) => {
             div.textContent = display.gameArray[arrayIndex];
@@ -43,14 +47,14 @@ let display = {
 
 
 let playerMoves = {
-    
-    whosTurn : player1.name,
+
+    whosTurn : player1,
+                
+
     playCounter : 0,
 
     move : function() {
-        
         let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
-        
         gameBoardDivs.forEach((div) => {
             div.addEventListener("click", () => {
                 
@@ -60,16 +64,16 @@ let playerMoves = {
                         return;
                 }
                 //player 1 turn
-                else if(playerMoves.whosTurn == player1.name) {
-                    playerMoves.whosTurn = player2.name;
+                else if(playerMoves.whosTurn.name == player1.name) {
+                    playerMoves.whosTurn = player2;
                     display.gameArray.splice(div.classList[1] -1, 1, player1.symbol);
                     playerMoves.playCounter++;
                     display.populateDisplay();
                     determineWinner.checkWinner();
                 }
                 //player 2 turn
-                else if(playerMoves.whosTurn == player2.name) {
-                    playerMoves.whosTurn = player1.name;
+                else if(playerMoves.whosTurn.name == player2.name) {
+                    playerMoves.whosTurn = player1;
                     display.gameArray.splice(div.classList[1] - 1, 1, player2.symbol);
                     playerMoves.playCounter++;
                     display.populateDisplay();
@@ -77,7 +81,7 @@ let playerMoves = {
                 };
             });
         });
-    },
+    }
 
     
 };
@@ -85,21 +89,18 @@ let playerMoves = {
 let determineWinner = {
     
     won : function(z) {
-        //this.checkWinner.isWinner = true;
         eval("player" + z).winCount++;
-        determineWinner.announceWinnner(eval("player" + z).name, eval("player" + z).symbol, eval("player" + z).winCount);
-        
-        
+        determineWinner.announceWinnner(eval("player" + z).name, eval("player" + z).symbol, eval("player" + z).winCount); 
     },
 
     checkWinner : function() {
-        //let isWinner = false;
+        //check for tie
         if(playerMoves.playCounter >= 9) {
             console.log("its a tie!")
             display.clearDisplay()
         }
         for(let z = 1; z < 3; z++) {
-            //diagonal
+            //diagonal win
             if(display.gameArray[0] == eval("player" + z).symbol && 
             display.gameArray[4] == eval("player" + z).symbol && 
             display.gameArray[8] == eval("player" + z).symbol) {
@@ -111,11 +112,9 @@ let determineWinner = {
             display.gameArray[6] == eval("player" + z).symbol) {
                 determineWinner.won(z);
             }
-            
             let a = 0, b = 3, c = 6, 
             d = 0, e = 1, f = 2;
-
-            //vertical
+            //vertical win
             for(let y = 0; y < 3; y++, a++, b++, c++) {
 
                 if(display.gameArray[a] == eval("player" + z).symbol && 
@@ -123,7 +122,7 @@ let determineWinner = {
                 display.gameArray[c] == eval("player" + z).symbol) {
                     determineWinner.won(z);
                 }
-            //horizontal    
+            //horizontal win 
                 else if(display.gameArray[d] == eval("player" + z).symbol && 
                 display.gameArray[e] == eval("player" + z).symbol && 
                 display.gameArray[f] == eval("player" + z).symbol) {
@@ -135,8 +134,6 @@ let determineWinner = {
     },
 
     announceWinnner : function(name, winner, winCount) {
-        
-        
         if(winCount >= 3) {
             console.log(`${name} "${winner}" is the Champion! Games won:${winCount}`);
             display.clearDisplay();
@@ -146,6 +143,4 @@ let determineWinner = {
             display.clearDisplay();
         }
     }
-
 };
-
