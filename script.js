@@ -1,4 +1,4 @@
-
+//todo make diagonal check work
 let player = (name, symbol) => {
     return {name, symbol}
 }
@@ -81,10 +81,31 @@ let determineWinner = (() => {
     
     let checkWinner = function() {
         for(let x = 1; x < 3; x++) {
-            if(display.gameArray[0] == eval("player" + x).symbol && 
-            display.gameArray[1] == eval("player" + x).symbol && 
-            display.gameArray[2] == eval("player" + x).symbol) {
-                console.log("winner")
+            
+            for(let d = 0, e = 4, f = 8, a = 0, b = 1, c = 2, w = 0, y = 3, z = 6; y < 9; w++, y++, z++) {
+                //vertical
+                if(display.gameArray[w] == eval("player" + x).symbol && 
+                display.gameArray[y] == eval("player" + x).symbol && 
+                display.gameArray[z] == eval("player" + x).symbol) {
+                    console.log("vertical winner");
+                }
+                //horizontal
+                else if(display.gameArray[a] == eval("player" + x).symbol && 
+                display.gameArray[b] == eval("player" + x).symbol && 
+                display.gameArray[c] == eval("player" + x).symbol) {
+                    a += 3, b += 3, c += 3;
+                    console.log("horizontal winner")
+
+                }
+                
+                //diagonal
+                else if(display.gameArray[d] == eval("player" + x).symbol && 
+                display.gameArray[e] == eval("player" + x).symbol && 
+                display.gameArray[f] == eval("player" + x).symbol) {
+                    f = 6, d = 2;
+                    console.log("diagonal winner")
+
+                }
             }
         }
     }
