@@ -35,7 +35,8 @@ let display = {
         let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
         let displayWhosTurn = document.querySelector(".displayWhosTurn");
 
-        displayWhosTurn.textContent = (`${playerMoves.whosTurn.name}'s turn`);
+        displayWhosTurn.innerHTML = (`${playerMoves.whosTurn.name}'s turn  -${playerMoves.whosTurn.symbol}-`) + "<br />" +
+        (`Score: `) + "<br />" + (`${player1.name}: ${player1.winCount}`) + "<br />" + (`${player2.name}: ${player2.winCount}`)
 
         let arrayIndex = 0;
         gameBoardDivs.forEach((div) => {
@@ -136,6 +137,8 @@ let determineWinner = {
     announceWinnner : function(name, winner, winCount) {
         if(winCount >= 3) {
             console.log(`${name} "${winner}" is the Champion! Games won:${winCount}`);
+            player1.winCount = 0;
+            player2.winCount = 0;
             display.clearDisplay();
         }
         else {
