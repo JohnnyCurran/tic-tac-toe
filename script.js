@@ -1,156 +1,176 @@
-const players = (name, symbol, winCount) => {
-    return { name, symbol, winCount };
-};
 
-const player1 = players("player 1", "x", 0);
-const player2 = players("player 2", "o", 0);
-
-var gameBoard = {
-    gameArray : [["1", "2", "3"], 
-                ["4", "5", "6"],
-                ["7", "8", "9"]],
+let player = (name, symbol, winCount) => {
+    return {name, symbol, winCount}
 }
 
-function initGame () {
-    let counter = 0;
-    playCounter = 0;
-    gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
-    let displayWhosTurn = document.querySelector(".displayWhosTurn");
-    let whosTurn = player1.name;
-    displayWhosTurn.textContent = whosTurn + ` "${player1.symbol.toUpperCase()}" turn`;
+const player1 = player("player 1", "X", 0);
+const player2 = player("player 2", "O", 0);
 
-    gameBoardDivs.forEach((div) => {
-        counter++;
-        
-        div.classList.add(counter);
-        //this["div" + counter] = document.getElementsByClassName([div.classList[1]]);
-        
-        div.addEventListener("click", () => {
-            //first check if div has already been played
-            if(div.textContent == player1.symbol || 
-                div.textContent == player2.symbol) {return}
-                
-            //if div is unplayed loop through gameBoard.gameArray to find the index...
-            //of pointerNum (witch is this div's class number (1-9))...
-            //and also splice the play ("x" or "o") into the array.
-            if(whosTurn == player1.name) {
-                whosTurn = player2.name;
-                div.textContent = player1.symbol;
-                let pointerNum = div.classList[1];
-                for(let y = 0; y < 3; y++) {
-                    for(let x = 0; x < 3; x++) {
-                        if(pointerNum == gameBoard.gameArray[y][x]) {
-                            gameBoard.gameArray[y].splice(x, 1, player1.symbol)
-                        }
-                    }
-                }
-                displayWhosTurn.textContent = whosTurn + ` "${player2.symbol.toUpperCase()}" turn`;
-                player1.currentDiv = counter;
-                playCounter++
-                checkWinner();
-            }
 
-            else if(whosTurn == player2.name) {
-                whosTurn = player1.name;
-                div.textContent = player2.symbol;
-                let pointerNum = div.classList[1];
-                for(let y = 0; y < 3; y++) {
-                    for(let x = 0; x < 3; x++) {
-                        if(pointerNum == gameBoard.gameArray[y][x]) {
-                            gameBoard.gameArray[y].splice(x, 1, player2.symbol)
-                        }
-                    }
-                }
-                displayWhosTurn.textContent = whosTurn + ` "${player1.symbol.toUpperCase()}" turn`;
-                player2.currentDiv = counter;
-                playCounter++
-                checkWinner();
-            }
-        });
-    });
-};
+const displayModule = (() => {
 
-function checkWinner() {
-    isWinner = false;
+    let gameArray = ["", "", "",
+                     "", "", "",
+                     "", "", ""];
 
-    //vertical
-    for(let yy = 1; yy < 3; yy++) {
-        for(let x = 0; x < 3; x++) {
-            if(gameBoard.gameArray[0][x] == eval("player" + yy).symbol && 
-                gameBoard.gameArray[0 + 1][x] == eval("player" + yy).symbol && 
-                gameBoard.gameArray[0 + 2][x] == eval("player" + yy).symbol) {
-                    playCounter = 0;
-                    player1.winCount++
-                    isWinner = true;
-                    announceWinner(eval("player" + yy).name, eval("player" + yy).symbol, eval("player" + yy).winCount);
+    let populateDisplay = () => {
 
-            }
-            //horizontal
-            else if(gameBoard.gameArray[x][0] == eval("player" + yy).symbol && 
-                gameBoard.gameArray[x][0 + 1] == eval("player" + yy).symbol && 
-                gameBoard.gameArray[x][0 + 2] == eval("player" + yy).symbol) {
-                    playCounter = 0;
-                    player1.winCount++
-                    isWinner = true;
-                    announceWinner(eval("player" + yy).name, eval("player" + yy).symbol, eval("player" + yy).winCount);
-            }
-        
-        }
+        let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
+        let displayWhosTurn = document.querySelector(".displayWhosTurn");
+
+        displayWhosTurn.innerHTML = 
+        (`${playerMoveModule.whosTurn.symbol} - ${playerMoveModule.whosTurn.name}'s turn`) + "<br />" +
+        (`Score: `) + "<br />" + (`${player1.symbol} - ${player1.name}: ${player1.winCount}`) + "<br />" + 
+        (`${player2.symbol} - ${player2.name}: ${player2.winCount}`);
+
+        let arrayIndex = 0;
+        gameBoardDivs.forEach((div) => {
+            div.textContent = displayModule.gameArray[arrayIndex];
+            arrayIndex++;
+        })
     }
 
-    //diagonal
-    for(let yy = 1; yy < 3; yy++) {
-        if(gameBoard.gameArray[0][0] == eval("player" + yy).symbol && 
-            gameBoard.gameArray[1][1] == eval("player" + yy).symbol && 
-            gameBoard.gameArray[2][2] == eval("player" + yy).symbol) {
-                isWinner = true;
-                player1.winCount++;
-                playCounter = 0;
-                announceWinner(eval("player" + yy).name, eval("player" + yy).symbol, eval("player" + yy).winCount);
-        }
-        else if(gameBoard.gameArray[0][2] == eval("player" + yy).symbol && 
-            gameBoard.gameArray[1][1] == eval("player" + yy).symbol && 
-            gameBoard.gameArray[2][0] == eval("player" + yy).symbol) {
-                isWinner = true;
-                player1.winCount++
-                playCounter = 0;
-                announceWinner(eval("player" + yy).name, eval("player" + yy).symbol, eval("player" + yy).winCount);
-        }
-    }
-        
-    //Check for a tie
-    if(playCounter >= 9 && isWinner == false) {
-        alert("It's a tie!");
-        gameBoard = {
-            gameArray : [["1", "2", "3"], 
-                        ["4", "5", "6"],
-                        ["7", "8", "9"]],
-        }
+    let clearDisplay = () => {
         for(let x = 0; x < 9; x++) {
-            gameBoardDivs[x].textContent = ""
+            displayModule.gameArray.splice(x, 1, "")
         };
-        playCounter = 0
-    }
-}
-
-function announceWinner(name, winner, winCount) {
-    
-    alert(`${name}:"${winner}" is the winner! `)
-    
-    gameBoard = {
-        gameArray : [["1", "2", "3"], 
-                    ["4", "5", "6"],
-                    ["7", "8", "9"]],
+        playerMoveModule.playCounter = 0;
+        displayModule.populateDisplay();
     }
 
-    for(let x = 0; x < 9; x++) {
-        gameBoardDivs[x].textContent = ""
+    let addDivClassNames = () => {
+        let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
+        let divClassName = 0;
+        gameBoardDivs.forEach((div) => {
+            divClassName++
+            div.classList.add(divClassName)
+        })
+        displayModule.populateDisplay()
+    }
+
+    return {
+        populateDisplay,
+        clearDisplay,
+        addDivClassNames,
+        gameArray,
+    }
+})();
+
+
+const playerMoveModule = (() => {
+    let whosTurn = player1;
+    let playCounter = 0;
+    let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
+    
+    let move = () => {
+ 
+        gameBoardDivs.forEach((div) => {
+            div.addEventListener("click", () => {
+                //check if div has already been played
+                if(displayModule.gameArray[div.classList[1] - 1] == player1.symbol ||
+                    displayModule.gameArray[div.classList[1] - 1] == player2.symbol) {
+                        return;
+                }
+                //player 1 turn
+                if(playerMoveModule.whosTurn.name == player1.name) {
+                    playerMoveModule.whosTurn = player2;
+                    displayModule.gameArray.splice(div.classList[1] -1, 1, player1.symbol);
+                    playerMoveModule.playCounter++;
+                    displayModule.populateDisplay();
+                    determineWinnerModule.checkWinner();
+                }
+                //player 2 turn
+                else if(playerMoveModule.whosTurn.name == player2.name) {
+                    playerMoveModule.whosTurn = player1;
+                    displayModule.gameArray.splice(div.classList[1] - 1, 1, player2.symbol);
+                    playerMoveModule.playCounter++;
+                    displayModule.populateDisplay();
+                    determineWinnerModule.checkWinner();
+                };
+            });
+        });
     };
 
-   if(winCount >= 5) {
-       player1.winCount = 0;
-       player2.winCount = 0;
-       alert("You Are the grand champion!"); 
-   }
-}
+    return {
+        whosTurn,
+        move,
+        playCounter,
+    }
 
+})();
+
+
+let determineWinnerModule = (() => {
+
+    let won = (z) => {
+        eval("player" + z).winCount++;
+        determineWinnerModule.announceWinnner(eval("player" + z).name, eval("player" + z).symbol, eval("player" + z).winCount);
+    }
+
+    let isWinner = false;//helps determine tie
+
+    let checkWinner = () => {
+        
+        for(let z = 1; z < 3; z++) {
+            //diagonal win
+            if(displayModule.gameArray[0] == eval("player" + z).symbol && 
+            displayModule.gameArray[4] == eval("player" + z).symbol && 
+            displayModule.gameArray[8] == eval("player" + z).symbol) {
+                isWinner = true;
+                determineWinnerModule.won(z);
+            }
+
+            else if(displayModule.gameArray[2] == eval("player" + z).symbol && 
+            displayModule.gameArray[4] == eval("player" + z).symbol && 
+            displayModule.gameArray[6] == eval("player" + z).symbol) {
+                isWinner = true;
+                determineWinnerModule.won(z);
+            }
+            let a = 0, b = 3, c = 6, 
+            d = 0, e = 1, f = 2;
+            //vertical win
+            for(let y = 0; y < 3; y++, a++, b++, c++) {
+
+                if(displayModule.gameArray[a] == eval("player" + z).symbol && 
+                displayModule.gameArray[b] == eval("player" + z).symbol && 
+                displayModule.gameArray[c] == eval("player" + z).symbol) {
+                    isWinner = true;
+                    determineWinnerModule.won(z);
+                }
+            //horizontal win 
+                else if(displayModule.gameArray[d] == eval("player" + z).symbol && 
+                displayModule.gameArray[e] == eval("player" + z).symbol && 
+                displayModule.gameArray[f] == eval("player" + z).symbol) {
+                    isWinner = true;
+                    determineWinnerModule.won(z);
+                }
+                d += 3, e += 3, f += 3;
+            }
+        }
+        //check for tie
+        if(playerMoveModule.playCounter >= 9 && isWinner == false) {
+            console.log("its a tie!")
+            displayModule.clearDisplay()
+        }
+    }
+
+    let announceWinnner = (name, winner, winCount) => {
+        if(winCount >= 3) {
+            alert(`${name} "${winner}" is the Champion! Games won:${winCount}`);
+            player1.winCount = 0;
+            player2.winCount = 0;
+            displayModule.clearDisplay();
+        }
+        else {
+            console.log(`${name} "${winner}" is the winner! Rounds won :${winCount}`)
+            displayModule.clearDisplay();
+        }
+    }
+    
+    return {
+        checkWinner,
+        won,
+        announceWinnner,
+        
+    }
+})();
