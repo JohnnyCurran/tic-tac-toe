@@ -10,8 +10,8 @@ const player2 = player("player 2", "O", 0);
 const displayModule = (() => {
 
     let gameArray = ["", "", "",
-                       "", "", "",
-                       "", "", ""];
+                     "", "", "",
+                     "", "", ""];
 
     let populateDisplay = () => {
 
@@ -19,7 +19,7 @@ const displayModule = (() => {
         let displayWhosTurn = document.querySelector(".displayWhosTurn");
 
         displayWhosTurn.innerHTML = 
-        (`${playerMoves.whosTurn.symbol} - ${playerMoves.whosTurn.name}'s turn`) + "<br />" +
+        (`${playerMoveModule.whosTurn.symbol} - ${playerMoveModule.whosTurn.name}'s turn`) + "<br />" +
         (`Score: `) + "<br />" + (`${player1.symbol} - ${player1.name}: ${player1.winCount}`) + "<br />" + 
         (`${player2.symbol} - ${player2.name}: ${player2.winCount}`);
 
@@ -34,7 +34,7 @@ const displayModule = (() => {
         for(let x = 0; x < 9; x++) {
             displayModule.gameArray.splice(x, 1, "")
         };
-        playerMoves.playCounter = 0;
+        playerMoveModule.playCounter = 0;
         displayModule.populateDisplay();
     }
 
@@ -56,45 +56,48 @@ const displayModule = (() => {
     }
 })();
 
-
-
-let playerMoves = {
-
-    whosTurn : player1,
-                
-
-    playCounter : 0,
-
-    move : function() {
-        let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
+const playerMoveModule = (() => {
+    let whosTurn = player1;
+    let playCounter = 0;
+    let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
+    
+    let move = () => {
+ 
         gameBoardDivs.forEach((div) => {
             div.addEventListener("click", () => {
-                
-                // first check if div has already been played
+                //check if div has already been played
                 if(displayModule.gameArray[div.classList[1] - 1] == player1.symbol ||
                     displayModule.gameArray[div.classList[1] - 1] == player2.symbol) {
                         return;
                 }
                 //player 1 turn
-                else if(playerMoves.whosTurn.name == player1.name) {
-                    playerMoves.whosTurn = player2;
+                if(playerMoveModule.whosTurn.name == player1.name) {
+                    playerMoveModule.whosTurn = player2;
                     displayModule.gameArray.splice(div.classList[1] -1, 1, player1.symbol);
-                    playerMoves.playCounter++;
+                    playerMoveModule.playCounter++;
                     displayModule.populateDisplay();
                     determineWinner.checkWinner();
                 }
                 //player 2 turn
-                else if(playerMoves.whosTurn.name == player2.name) {
-                    playerMoves.whosTurn = player1;
+                else if(playerMoveModule.whosTurn.name == player2.name) {
+                    playerMoveModule.whosTurn = player1;
                     displayModule.gameArray.splice(div.classList[1] - 1, 1, player2.symbol);
-                    playerMoves.playCounter++;
+                    playerMoveModule.playCounter++;
                     displayModule.populateDisplay();
                     determineWinner.checkWinner();
                 };
             });
         });
+    };
+
+    return {
+        whosTurn,
+        move,
     }
-};
+
+})();
+
+
 
 
 let determineWinner = {
@@ -106,7 +109,7 @@ let determineWinner = {
 
     checkWinner : function() {
         //check for tie
-        if(playerMoves.playCounter >= 9) {
+        if(playerMoveModule.playCounter >= 9) {
             console.log("its a tie!")
             displayModule.clearDisplay()
         }
