@@ -56,6 +56,7 @@ const displayModule = (() => {
     }
 })();
 
+
 const playerMoveModule = (() => {
     let whosTurn = player1;
     let playCounter = 0;
@@ -106,23 +107,23 @@ let determineWinnerModule = (() => {
         determineWinnerModule.announceWinnner(eval("player" + z).name, eval("player" + z).symbol, eval("player" + z).winCount);
     }
 
+    let isWinner = false;//helps determine tie
+
     let checkWinner = () => {
-        //check for tie
-        if(playerMoveModule.playCounter >= 9) {
-            console.log("its a tie!")
-            displayModule.clearDisplay()
-        }
+        
         for(let z = 1; z < 3; z++) {
             //diagonal win
             if(displayModule.gameArray[0] == eval("player" + z).symbol && 
             displayModule.gameArray[4] == eval("player" + z).symbol && 
             displayModule.gameArray[8] == eval("player" + z).symbol) {
+                isWinner = true;
                 determineWinnerModule.won(z);
             }
 
             else if(displayModule.gameArray[2] == eval("player" + z).symbol && 
             displayModule.gameArray[4] == eval("player" + z).symbol && 
             displayModule.gameArray[6] == eval("player" + z).symbol) {
+                isWinner = true;
                 determineWinnerModule.won(z);
             }
             let a = 0, b = 3, c = 6, 
@@ -133,16 +134,23 @@ let determineWinnerModule = (() => {
                 if(displayModule.gameArray[a] == eval("player" + z).symbol && 
                 displayModule.gameArray[b] == eval("player" + z).symbol && 
                 displayModule.gameArray[c] == eval("player" + z).symbol) {
+                    isWinner = true;
                     determineWinnerModule.won(z);
                 }
             //horizontal win 
                 else if(displayModule.gameArray[d] == eval("player" + z).symbol && 
                 displayModule.gameArray[e] == eval("player" + z).symbol && 
                 displayModule.gameArray[f] == eval("player" + z).symbol) {
+                    isWinner = true;
                     determineWinnerModule.won(z);
                 }
                 d += 3, e += 3, f += 3;
             }
+        }
+        //check for tie
+        if(playerMoveModule.playCounter >= 9 && isWinner == false) {
+            console.log("its a tie!")
+            displayModule.clearDisplay()
         }
     }
 
@@ -163,7 +171,6 @@ let determineWinnerModule = (() => {
         checkWinner,
         won,
         announceWinnner,
+        
     }
 })();
-
-displayModule.populateDisplay();
