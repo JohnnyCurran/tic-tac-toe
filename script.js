@@ -76,7 +76,7 @@ const playerMoveModule = (() => {
                     displayModule.gameArray.splice(div.classList[1] -1, 1, player1.symbol);
                     playerMoveModule.playCounter++;
                     displayModule.populateDisplay();
-                    determineWinner.checkWinner();
+                    determineWinnerModule.checkWinner();
                 }
                 //player 2 turn
                 else if(playerMoveModule.whosTurn.name == player2.name) {
@@ -84,7 +84,7 @@ const playerMoveModule = (() => {
                     displayModule.gameArray.splice(div.classList[1] - 1, 1, player2.symbol);
                     playerMoveModule.playCounter++;
                     displayModule.populateDisplay();
-                    determineWinner.checkWinner();
+                    determineWinnerModule.checkWinner();
                 };
             });
         });
@@ -93,21 +93,20 @@ const playerMoveModule = (() => {
     return {
         whosTurn,
         move,
+        playCounter,
     }
 
 })();
 
 
+let determineWinnerModule = (() => {
 
-
-let determineWinner = {
-    
-    won : function(z) {
+    let won = (z) => {
         eval("player" + z).winCount++;
-        determineWinner.announceWinnner(eval("player" + z).name, eval("player" + z).symbol, eval("player" + z).winCount); 
-    },
+        determineWinnerModule.announceWinnner(eval("player" + z).name, eval("player" + z).symbol, eval("player" + z).winCount);
+    }
 
-    checkWinner : function() {
+    let checkWinner = () => {
         //check for tie
         if(playerMoveModule.playCounter >= 9) {
             console.log("its a tie!")
@@ -118,13 +117,13 @@ let determineWinner = {
             if(displayModule.gameArray[0] == eval("player" + z).symbol && 
             displayModule.gameArray[4] == eval("player" + z).symbol && 
             displayModule.gameArray[8] == eval("player" + z).symbol) {
-                determineWinner.won(z);
+                determineWinnerModule.won(z);
             }
 
             else if(displayModule.gameArray[2] == eval("player" + z).symbol && 
             displayModule.gameArray[4] == eval("player" + z).symbol && 
             displayModule.gameArray[6] == eval("player" + z).symbol) {
-                determineWinner.won(z);
+                determineWinnerModule.won(z);
             }
             let a = 0, b = 3, c = 6, 
             d = 0, e = 1, f = 2;
@@ -134,20 +133,20 @@ let determineWinner = {
                 if(displayModule.gameArray[a] == eval("player" + z).symbol && 
                 displayModule.gameArray[b] == eval("player" + z).symbol && 
                 displayModule.gameArray[c] == eval("player" + z).symbol) {
-                    determineWinner.won(z);
+                    determineWinnerModule.won(z);
                 }
             //horizontal win 
                 else if(displayModule.gameArray[d] == eval("player" + z).symbol && 
                 displayModule.gameArray[e] == eval("player" + z).symbol && 
                 displayModule.gameArray[f] == eval("player" + z).symbol) {
-                    determineWinner.won(z);
+                    determineWinnerModule.won(z);
                 }
                 d += 3, e += 3, f += 3;
             }
         }
-    },
+    }
 
-    announceWinnner : function(name, winner, winCount) {
+    let announceWinnner = (name, winner, winCount) => {
         if(winCount >= 3) {
             alert(`${name} "${winner}" is the Champion! Games won:${winCount}`);
             player1.winCount = 0;
@@ -159,5 +158,12 @@ let determineWinner = {
             displayModule.clearDisplay();
         }
     }
-};
+    
+    return {
+        checkWinner,
+        won,
+        announceWinnner,
+    }
+})();
+
 displayModule.populateDisplay();
