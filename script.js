@@ -9,6 +9,10 @@ const player2 = player("player 2", "O", 0);
 
 const displayModule = (() => {
 
+  // It's important to have a container for the state of the game
+  // Instead of an array, I would encourage you to look into using a Matrix
+  // In this instance, it will be a 2-Dimensional array
+  // https://www.geeksforgeeks.org/how-to-create-two-dimensional-array-in-javascript/
     let gameArray = ["", "", "",
                      "", "", "",
                      "", "", ""];
@@ -18,11 +22,30 @@ const displayModule = (() => {
         let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
         let displayWhosTurn = document.querySelector(".displayWhosTurn");
 
+      // Lots of this HTML is static (i.e. non-changing)
+      // For instance:
+      // Score:
+      // X - player 1:
+      // O - player 2:
+      // These don't need to be re-written every time.
+      // Try and see how much of this HTML you can move into the <p class="displayWhosTurn"></p>
+      // tag in your index.html
+      // Remember: You can target inline elements by wrapping them in <span> tags
+      // Here's an example:
+      // HTML:
+      // <p>
+      // This is some text. Here is some <span class="special-class-name">Special text</span>
+      // </p>
+      // JavaScript:
+      // let special-element = document.getElementsByClassName(".special-class-name")
+      //
+      // See if you can update this method to modify as little HTML as possible
         displayWhosTurn.innerHTML = 
         (`${playerMoveModule.whosTurn.symbol} - ${playerMoveModule.whosTurn.name}'s turn`) + "<br />" +
         (`Score: `) + "<br />" + (`${player1.symbol} - ${player1.name}: ${player1.winCount}`) + "<br />" + 
         (`${player2.symbol} - ${player2.name}: ${player2.winCount}`);
 
+      // Once again, with the move to a matrix, I bet you can simplify this as well.
         let arrayIndex = 0;
         gameBoardDivs.forEach((div) => {
             div.textContent = displayModule.gameArray[arrayIndex];
@@ -30,6 +53,7 @@ const displayModule = (() => {
         })
     }
 
+  // A matrix will let you simplify here too
     let clearDisplay = () => {
         for(let x = 0; x < 9; x++) {
             displayModule.gameArray.splice(x, 1, "")
@@ -38,6 +62,9 @@ const displayModule = (() => {
         displayModule.populateDisplay();
     }
 
+  // I challenge you to re-implement detection of which square was clicked without
+  // using numbered class names. Remember what we did with the form submission:
+  // You are able to access elements from event callback arguments.
     let addDivClassNames = () => {
         let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
         let divClassName = 0;
@@ -102,6 +129,8 @@ const playerMoveModule = (() => {
 
 let determineWinnerModule = (() => {
 
+  // Avoid using eval() at all costs. I can guarantee you there are ways to
+  // determine which player's turn it is without it.
     let won = (z) => {
         eval("player" + z).winCount++;
         determineWinnerModule.announceWinnner(eval("player" + z).name, eval("player" + z).symbol, eval("player" + z).winCount);
@@ -109,8 +138,12 @@ let determineWinnerModule = (() => {
 
     let isWinner = false;//helps determine tie
 
+  // If you update your gameArray to become a 2-dimensional array (matrix),
+  // I bet you will find that you can greatly simplify this function
+  // After all, there are only so many ways to determine a winner in a 3x3 tic-tac-toe board
     let checkWinner = () => {
         
+      // Again, avoid using eval() here - Maybe you could add a variable that indicates the current player? (Hint: It seems you may already have a module for it)
         for(let z = 1; z < 3; z++) {
             //diagonal win
             if(displayModule.gameArray[0] == eval("player" + z).symbol && 
