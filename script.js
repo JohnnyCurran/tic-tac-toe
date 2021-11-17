@@ -34,7 +34,8 @@ const displayModule = (() => {
         for(let x = 0; x < gameBoardDivs.length; x++) {
             gameBoardDivs[x].textContent = gameArray[x];
         }
-        return;
+        
+        
     };
 
     
@@ -46,15 +47,17 @@ const displayModule = (() => {
     };
 
     let populateArray = () => {
-        gameArray = [];
+        
+        
         for(let x = 0; x < gameBoardDivs.length; x++) {
+            
             gameArray.push(gameBoardDivs[x].textContent);
-            
-            
+        
         }
-        console.log(gameArray);
+        console.log(displayModule.gameArray)
         populateDisplay();
-        return;
+        
+       
     }
 
     
@@ -90,19 +93,23 @@ let playerMoveModule = (() => {
                 if(playerMoveModule.whosTurn.name == player1.name) {
                     playerMoveModule.whosTurn = player2;
                     div.target.textContent = player1.symbol;
+                    //console.log(displayModule.gameArray);
                     displayModule.populateArray();
+                    //winModule.checkWinner();
                     
                     
-                    // determineWinnerModule.checkWinner();
+                    
+                    
                 }
                 // player 2 turn
                 else if(playerMoveModule.whosTurn.name == player2.name) {
                     playerMoveModule.whosTurn = player1;
                     div.target.textContent = player2.symbol;
+                    //console.log(displayModule.gameArray);
                     displayModule.populateArray();
-                    
+                    //winModule.checkWinner();
 
-                    // determineWinnerModule.checkWinner();
+                    
                 };
             });
         });
@@ -118,7 +125,15 @@ let playerMoveModule = (() => {
 let winModule = (() => {
 
     let checkWinner = () => {
+        //diagonal win
+        
 
+        if(displayModule.gameArray[0] == player1.symbol && 
+        displayModule.gameArray[4] == player1.symbol && 
+        displayModule.gameArray[8] == player1.symbol) {
+            console.log("diagonal win")
+            displayModule.clearDisplay();
+        }
     };
 
     return {
