@@ -14,9 +14,9 @@ const displayModule = (() => {
   // In this instance, it will be a 2-Dimensional array
   // https://www.geeksforgeeks.org/how-to-create-two-dimensional-array-in-javascript/
 
-  let gameArray = [["", "", ""],
-                    ["", "", ""],
-                    ["", "", ""]]
+//   let gameArray = [["", "", ""],
+//                     ["", "", ""],
+//                     ["", "", ""]]
     // let gameArray = ["", "", "",
     //                  "", "", "",
     //                  "", "", ""];
