@@ -34,11 +34,12 @@ const displayModule = (() => {
         for(let x = 0; x < gameBoardDivs.length; x++) {
             gameBoardDivs[x].textContent = gameArray[x];
         }
+        playerMoveModule.move()
     };
 
 
     let populateArray = () => {
-        gameArray = [];
+        //gameArray = ["", "", "", "", "", "", "", "", ""];
         
         for(let x = 0; x < gameBoardDivs.length; x++) {
             
@@ -46,7 +47,7 @@ const displayModule = (() => {
         
         }
         console.log(displayModule.gameArray)
-        populateDisplay();
+        
         
        
     }
@@ -93,11 +94,9 @@ let playerMoveModule = (() => {
                     //console.log(displayModule.gameArray);
                     displayModule.populateArray();
                     //winModule.checkWinner();
-                    
-                    
-                    
-                    
+                
                 }
+
                 // player 2 turn
                 else if(playerMoveModule.whosTurn.name == player2.name) {
                     playerMoveModule.whosTurn = player1;
