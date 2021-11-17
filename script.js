@@ -11,7 +11,7 @@ const displayModule = (() => {
 
     let gameBoardDivs = document.getElementsByClassName("gameBoardDivs");
     // let gameArray = [ ["", "", ""], ["", "", ""], ["", "", ""] ];
-    let gameArray = [];
+    let gameArray = ["", "", "", "", "", "", "", "", ""];
     
     let populateDisplay = () => {
 
@@ -34,13 +34,11 @@ const displayModule = (() => {
         for(let x = 0; x < gameBoardDivs.length; x++) {
             gameBoardDivs[x].textContent = gameArray[x];
         }
-        
-        
     };
 
 
     let populateArray = () => {
-        
+        gameArray = [];
         
         for(let x = 0; x < gameBoardDivs.length; x++) {
             
@@ -56,8 +54,8 @@ const displayModule = (() => {
     // A matrix will let you simplify here too
     let clearDisplay = () => {
         // poor mans clear display
-        gameArray = [];
-        populateDisplay()
+        //gameArray = [];
+        //populateDisplay()
     };
     
     return {
