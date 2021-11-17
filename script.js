@@ -13,10 +13,15 @@ const displayModule = (() => {
   // Instead of an array, I would encourage you to look into using a Matrix
   // In this instance, it will be a 2-Dimensional array
   // https://www.geeksforgeeks.org/how-to-create-two-dimensional-array-in-javascript/
-    let gameArray = ["", "", "",
-                     "", "", "",
-                     "", "", ""];
 
+  let gameArray = [["", "", ""],
+                    ["", "", ""],
+                    ["", "", ""]]
+    // let gameArray = ["", "", "",
+    //                  "", "", "",
+    //                  "", "", ""];
+
+    
     let populateDisplay = () => {
 
         let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
@@ -40,23 +45,26 @@ const displayModule = (() => {
       // let special-element = document.getElementsByClassName(".special-class-name")
       //
       // See if you can update this method to modify as little HTML as possible
-        displayWhosTurn.innerHTML = 
-        (`${playerMoveModule.whosTurn.symbol} - ${playerMoveModule.whosTurn.name}'s turn`) + "<br />" +
-        (`Score: `) + "<br />" + (`${player1.symbol} - ${player1.name}: ${player1.winCount}`) + "<br />" + 
-        (`${player2.symbol} - ${player2.name}: ${player2.winCount}`);
+        // displayWhosTurn.innerHTML = 
+        
+        // (`${playerMoveModule.whosTurn.symbol} - ${playerMoveModule.whosTurn.name}'s turn`) + "<br />" +
+        // (`Score: `) + "<br />" + (`${player1.symbol} - ${player1.name}: ${player1.winCount}`) + "<br />" + 
+        // (`${player2.symbol} - ${player2.name}: ${player2.winCount}`);
 
       // Once again, with the move to a matrix, I bet you can simplify this as well.
         let arrayIndex = 0;
-        gameBoardDivs.forEach((div) => {
-            div.textContent = displayModule.gameArray[arrayIndex];
-            arrayIndex++;
-        })
+
+        
+        // gameBoardDivs.forEach((div) => {
+        //     div.textContent = displayModule.gameArray[arrayIndex];
+        //     arrayIndex++;
+        // })
     }
 
   // A matrix will let you simplify here too
     let clearDisplay = () => {
-        for(let x = 0; x < 9; x++) {
-            displayModule.gameArray.splice(x, 1, "")
+        for(let x = 0; x < 3; x++) {
+            displayModule.gameArray[x].splice(x, 1, "")
         };
         playerMoveModule.playCounter = 0;
         displayModule.populateDisplay();
