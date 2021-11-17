@@ -38,13 +38,6 @@ const displayModule = (() => {
         
     };
 
-    
-    // A matrix will let you simplify here too
-    let clearDisplay = () => {
-        // poor mans clear display
-        gameArray = [];
-        populateDisplay()
-    };
 
     let populateArray = () => {
         
@@ -60,6 +53,12 @@ const displayModule = (() => {
        
     }
 
+    // A matrix will let you simplify here too
+    let clearDisplay = () => {
+        // poor mans clear display
+        gameArray = [];
+        populateDisplay()
+    };
     
     return {
         gameArray,
