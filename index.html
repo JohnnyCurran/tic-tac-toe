@@ -9,9 +9,17 @@
     
 </head>
 <body>
-    <p class="displayWhosTurn">
-        
-    </p>
+
+    <p><span class="displayStats"></span>'s turn -
+        <span class="displayStats"></span></p>
+
+    <p>Score:</p>
+
+    <p><span class="displayStats"></span>:
+        <span class="displayStats"></span></p>
+
+    <p><span class="displayStats"></span>:
+        <span class="displayStats"></span></p>
 
     <div class="gameBoardWrapper">
         <div class="gameBoardDivs"></div>
@@ -29,8 +37,7 @@
 </html>
 <script src="script.js"></script>
 <script type="text/javascript">
-    displayModule.populateDisplay()
-    displayModule.addDivClassNames()
+    displayModule.populateDisplay(),
     playerMoveModule.move()
 </script>
 
