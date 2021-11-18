@@ -179,6 +179,7 @@ let winModule = (() => {
               console.log('tie');
               displayModule.clearDisplay();
           }
+          return;
     };
 
 
@@ -190,6 +191,7 @@ let winModule = (() => {
 
         alert(playerMoveModule.whosTurn.name + " is the winner");
         displayModule.clearDisplay();
+        return;
     };
 
     return {
