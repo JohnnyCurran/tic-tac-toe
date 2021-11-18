@@ -110,37 +110,24 @@ let playerMoveModule = (() => {
 
 let winModule = (() => {
 
-    let winX = [["X", "X", "X"],
+    let winArray = [["X", "X", "X"],
                 ["X", "X", "X"],
                 ["X", "X", "X"]];
 
     let checkWinner = () => {
-        // for(let x = 0; x < displayModule.gameMatrix.length; x++) {
-        //     for(let y = 0; y < displayModule.gameMatrix[x].length; y++) {
-        //         if(displayModule.gameMatrix[x][y] == winX[x][y] &&
-        //             displayModule.gameMatrix[x][y] == winX[x][y] &&
-        //             displayModule.gameMatrix[x][y] == winX[x][y]) {
-        //                 console.log("horizontal winner")
-        //         }
-                
-        //     }
-        // }
-
-        // for(let x = 0; x < displayModule.gameMatrix.length; x++) {
-        //     for(let y = 0; y < displayModule.gameMatrix[x].length; y++) {
-        //         if(displayModule.gameMatrix[y][x] == winX[y++][x] &&
-        //             displayModule.gameMatrix[y][x] == winX[y++][x] &&
-        //             displayModule.gameMatrix[y][x] == winX[y++][x]) {
-        //                 console.log("vertical winner")
-        //         }
-                
-        //     }
-        // }
-        
-        //  [0-0, , 0-1 , 0-2]
-        //  [1-0, , 1-1 , 1-2]
-        //  [2-0, , 2-1 , 2-2]
-        console.log(displayModule.gameMatrix)
+        console.log(playerMoveModule.whosTurn)
+        // for(let x = 0, y = 0; x < wincheck.length; x++) {
+        //     if(displayModule.gameMatrix[x][y] == winArray[x][y] &&
+        //         displayModule.gameMatrix[x][y + 1] == winArray[x][y + 1] &&
+        //         displayModule.gameMatrix[x][y + 2] == winArray[x][y + 2]) {
+        //         console.log("horizontal match")
+        //       }
+        //       else if(displayModule.gameMatrix[y][x] == winArray[y][x] &&
+        //         displayModule.gameMatrix[y + 1][x] == winArray[y + 1][x] &&
+        //         displayModule.gameMatrix[y + 2][x] == winArray[y + 2][x]) {
+        //         console.log("vertical match")
+        //       }
+        //   };
         
     };
 
