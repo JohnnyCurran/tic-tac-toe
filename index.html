@@ -10,27 +10,28 @@
 </head>
 <body>
 
-    <p><span class="displayStats"></span>'s turn -
-        <span class="displayStats"></span></p>
+    <p><span id="currentPlayersTurn" class="displayStats"></span>'s turn -
+        <span id="currentPlayersSymbol" class="displayStats"></span></p>
 
     <p>Score:</p>
 
-    <p><span class="displayStats"></span>:
-        <span class="displayStats"></span></p>
+    <p><span id="player1Name" class="displayStats"></span>:
+        <span id="player1WinCount" class="displayStats"></span></p>
 
-    <p><span class="displayStats"></span>:
-        <span class="displayStats"></span></p>
+    <p><span id="player2Name" class="displayStats"></span>:
+        <span id="player2WinCount"class="displayStats"></span></p>
 
     <div class="gameBoardWrapper">
-        <div class="gameBoardDivs"></div>
-        <div class="gameBoardDivs"></div>
-        <div class="gameBoardDivs"></div>
-        <div class="gameBoardDivs"></div>
-        <div class="gameBoardDivs"></div>
-        <div class="gameBoardDivs"></div>
-        <div class="gameBoardDivs"></div>
-        <div class="gameBoardDivs"></div>
-        <div class="gameBoardDivs"></div>
+        <div data-row="0" data-column="0" class="gameBoardDivs"></div>
+        <div data-row="0" data-column="1" class="gameBoardDivs"></div>
+        <div data-row="0" data-column="2" class="gameBoardDivs"></div>
+        <div data-row="1" data-column="0" class="gameBoardDivs"></div>
+        <div data-row="1" data-column="1" class="gameBoardDivs"></div>
+        <div data-row="1" data-column="2" class="gameBoardDivs"></div>
+        <div data-row="2" data-column="0" class="gameBoardDivs"></div>
+        <div data-row="2" data-column="1" class="gameBoardDivs"></div>
+        <div data-row="2" data-column="2" class="gameBoardDivs"></div>
+
     </div>
     
 </body>

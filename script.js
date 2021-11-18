@@ -10,48 +10,53 @@ const player2 = player("player 2", "O", 0);
 const displayModule = (() => {
 
     let gameBoardDivs = document.getElementsByClassName("gameBoardDivs");
-    // let gameArray = [ ["", "", ""], ["", "", ""], ["", "", ""] ];
-    let gameArray = ["", "", "", "", "", "", "", "", ""];
+    
+    let gameMatrix = 
+       [["", "", ""],
+        ["", "", ""],
+        ["", "", ""]];
+
+    
     
     let populateDisplay = () => {
 
-        let displayStats = document.getElementsByClassName("displayStats");
+        document.getElementById("currentPlayersTurn").textContent = playerMoveModule.whosTurn.name;
+        document.getElementById("currentPlayersSymbol").textContent = playerMoveModule.whosTurn.symbol;
+        document.getElementById("player1Name").textContent = player1.name;
+        document.getElementById("player1WinCount").textContent = player1.winCount;
+        document.getElementById("player2Name").textContent = player2.name;
+        document.getElementById("player2WinCount").textContent = player1.winCount;
 
-        displayStats[0].textContent = playerMoveModule.whosTurn.name;
-        displayStats[1].textContent = playerMoveModule.whosTurn.symbol;
-        displayStats[2].textContent = player1.name;
-        displayStats[3].textContent = player1.winCount;
-        displayStats[4].textContent = player2.name;
-        displayStats[5].textContent = player1.winCount;
-
-        // // Once again, with the move to a matrix, I bet you can simplify this as well.
-
-        // //works with 2d array
-        // for(let x = 0, y = 0, z = 0; x < gameBoardDivs.length; x++, z++) {
-        //     gameBoardDivs[x].textContent = gameArray[y][z]
-        //     if(z == 2) {y++, z = -1}
-        // };
-        for(let x = 0; x < gameBoardDivs.length; x++) {
-            gameBoardDivs[x].textContent = gameArray[x];
-        }
+        
+        // for(let x = 0; x < gameBoardDivs.length; x++) {
+        //     gameBoardDivs[x].textContent = gameArray[x];
+        // }
         playerMoveModule.move()
     };
 
-
-    let populateArray = () => {
-        //gameArray = ["", "", "", "", "", "", "", "", ""];
-        
-        for(let x = 0; x < gameBoardDivs.length; x++) {
-            
-            gameArray.push(gameBoardDivs[x].textContent);
-        
+    
+    let populateMatrix = () => {
+        for(let x = 0; x < gameMatrix.length; x++) {
+            for(let y = 0; y < gameMatrix[x].length; y++) {
+                gameMatrix[x][y] = x.toString() + "," + y.toString()
+            }
         }
-        console.log(displayModule.gameArray)
-        
-        
-       
+        console.log(gameMatrix)
     }
 
+    
+
+    // playMove: Accept the following arguments:
+    // Symbol to be played
+    // Row of clicked div
+    // Column of clicked div
+    // playMove will update the gameMatrix and the textContent of the clicked div
+    let playMove = (symbol, row, column, event) => {
+        gameMatrix[row][column] = symbol;
+        event.textContent = symbol;
+        console.log(gameMatrix)
+
+    }
     // A matrix will let you simplify here too
     let clearDisplay = () => {
         // poor mans clear display
@@ -60,10 +65,11 @@ const displayModule = (() => {
     };
     
     return {
-        gameArray,
+        
         populateDisplay,
         clearDisplay,
-        populateArray
+        populateMatrix,
+        playMove
     };
     
 
@@ -81,31 +87,29 @@ let playerMoveModule = (() => {
         let gameBoardDivs = document.querySelectorAll(".gameBoardDivs");
 
         gameBoardDivs.forEach((div) => {
-            div.addEventListener("click", (div) => {
+            div.addEventListener("click", (event) => {
+                console.log(event.target.dataset.row);
+                console.log(event.target.dataset.column);
                 //check if div has already been played
-                if(div.target.textContent == player1.symbol ||
-                    div.target.textContent == player2.symbol)
+                if(event.target.textContent == player1.symbol ||
+                    event.target.textContent == player2.symbol)
                      {return};
 
                 //player 1 turn
                 if(playerMoveModule.whosTurn.name == player1.name) {
                     playerMoveModule.whosTurn = player2;
-                    div.target.textContent = player1.symbol;
-                    //console.log(displayModule.gameArray);
-                    displayModule.populateArray();
-                    //winModule.checkWinner();
+                    event.target.textContent = player1.symbol;
+                    
+                    displayModule.playMove(player1.symbol, event.target.dataset.row, event.target.dataset.column, event.target);
                 
                 }
 
                 // player 2 turn
                 else if(playerMoveModule.whosTurn.name == player2.name) {
                     playerMoveModule.whosTurn = player1;
-                    div.target.textContent = player2.symbol;
-                    //console.log(displayModule.gameArray);
-                    displayModule.populateArray();
-                    //winModule.checkWinner();
-
+                    event.target.textContent = player2.symbol;
                     
+                    displayModule.playMove(player2.symbol, event.target.dataset.row, event.target.dataset.column, event.target);
                 };
             });
         });
@@ -137,3 +141,4 @@ let winModule = (() => {
     };
 
 })();
+displayModule.populateMatrix();
