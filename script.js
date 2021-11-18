@@ -28,40 +28,32 @@ const displayModule = (() => {
         document.getElementById("player2WinCount").textContent = player1.winCount;
 
         
-        // for(let x = 0; x < gameBoardDivs.length; x++) {
-        //     gameBoardDivs[x].textContent = gameArray[x];
-        // }
+        
         playerMoveModule.move()
     };
 
     
     let populateMatrix = () => {
-        for(let x = 0; x < gameMatrix.length; x++) {
-            for(let y = 0; y < gameMatrix[x].length; y++) {
-                gameMatrix[x][y] = x.toString() + "," + y.toString()
-            }
-        }
-        console.log(gameMatrix)
+        // for(let x = 0; x < gameMatrix.length; x++) {
+        //     for(let y = 0; y < gameMatrix[x].length; y++) {
+        //         gameMatrix[x][y] = x.toString() + "," + y.toString()
+        //     }
+        // }
+        
     }
 
-    
 
-    // playMove: Accept the following arguments:
-    // Symbol to be played
-    // Row of clicked div
-    // Column of clicked div
-    // playMove will update the gameMatrix and the textContent of the clicked div
     let playMove = (symbol, row, column, event) => {
         gameMatrix[row][column] = symbol;
         event.textContent = symbol;
-        console.log(gameMatrix)
+        winModule.checkWinner();
 
     }
-    // A matrix will let you simplify here too
+    
     let clearDisplay = () => {
-        // poor mans clear display
-        //gameArray = [];
-        //populateDisplay()
+       for(let x = 0; x < gameBoardDivs.length; x++) {
+           gameBoardDivs[x].textContent = "";
+       }
     };
     
     return {
@@ -69,7 +61,8 @@ const displayModule = (() => {
         populateDisplay,
         clearDisplay,
         populateMatrix,
-        playMove
+        playMove,
+        gameMatrix
     };
     
 
@@ -88,8 +81,6 @@ let playerMoveModule = (() => {
 
         gameBoardDivs.forEach((div) => {
             div.addEventListener("click", (event) => {
-                console.log(event.target.dataset.row);
-                console.log(event.target.dataset.column);
                 //check if div has already been played
                 if(event.target.textContent == player1.symbol ||
                     event.target.textContent == player2.symbol)
@@ -98,17 +89,11 @@ let playerMoveModule = (() => {
                 //player 1 turn
                 if(playerMoveModule.whosTurn.name == player1.name) {
                     playerMoveModule.whosTurn = player2;
-                    event.target.textContent = player1.symbol;
-                    
                     displayModule.playMove(player1.symbol, event.target.dataset.row, event.target.dataset.column, event.target);
-                
                 }
-
                 // player 2 turn
                 else if(playerMoveModule.whosTurn.name == player2.name) {
                     playerMoveModule.whosTurn = player1;
-                    event.target.textContent = player2.symbol;
-                    
                     displayModule.playMove(player2.symbol, event.target.dataset.row, event.target.dataset.column, event.target);
                 };
             });
@@ -122,18 +107,41 @@ let playerMoveModule = (() => {
     }
 })();
 
+
 let winModule = (() => {
 
-    let checkWinner = () => {
-        //diagonal win
-        
+    let winX = [["X", "X", "X"],
+                ["X", "X", "X"],
+                ["X", "X", "X"]];
 
-        if(displayModule.gameArray[0] == player1.symbol && 
-        displayModule.gameArray[4] == player1.symbol && 
-        displayModule.gameArray[8] == player1.symbol) {
-            console.log("diagonal win")
-            displayModule.clearDisplay();
-        }
+    let checkWinner = () => {
+        // for(let x = 0; x < displayModule.gameMatrix.length; x++) {
+        //     for(let y = 0; y < displayModule.gameMatrix[x].length; y++) {
+        //         if(displayModule.gameMatrix[x][y] == winX[x][y] &&
+        //             displayModule.gameMatrix[x][y] == winX[x][y] &&
+        //             displayModule.gameMatrix[x][y] == winX[x][y]) {
+        //                 console.log("horizontal winner")
+        //         }
+                
+        //     }
+        // }
+
+        // for(let x = 0; x < displayModule.gameMatrix.length; x++) {
+        //     for(let y = 0; y < displayModule.gameMatrix[x].length; y++) {
+        //         if(displayModule.gameMatrix[y][x] == winX[y++][x] &&
+        //             displayModule.gameMatrix[y][x] == winX[y++][x] &&
+        //             displayModule.gameMatrix[y][x] == winX[y++][x]) {
+        //                 console.log("vertical winner")
+        //         }
+                
+        //     }
+        // }
+        
+        //  [0-0, , 0-1 , 0-2]
+        //  [1-0, , 1-1 , 1-2]
+        //  [2-0, , 2-1 , 2-2]
+        console.log(displayModule.gameMatrix)
+        
     };
 
     return {
@@ -141,4 +149,4 @@ let winModule = (() => {
     };
 
 })();
-displayModule.populateMatrix();
+//displayModule.populateMatrix();
