@@ -88,13 +88,15 @@ let playerMoveModule = (() => {
 
                 //player 1 turn
                 if(playerMoveModule.whosTurn.name == player1.name) {
-                    playerMoveModule.whosTurn = player2;
+                    
                     displayModule.playMove(player1.symbol, event.target.dataset.row, event.target.dataset.column, event.target);
+                    playerMoveModule.whosTurn = player2;
                 }
                 // player 2 turn
                 else if(playerMoveModule.whosTurn.name == player2.name) {
-                    playerMoveModule.whosTurn = player1;
+                    
                     displayModule.playMove(player2.symbol, event.target.dataset.row, event.target.dataset.column, event.target);
+                    playerMoveModule.whosTurn = player1;
                 };
             });
         });
@@ -110,24 +112,30 @@ let playerMoveModule = (() => {
 
 let winModule = (() => {
 
-    let winArray = [["X", "X", "X"],
-                ["X", "X", "X"],
-                ["X", "X", "X"]];
-
+    
+    
+    
     let checkWinner = () => {
-        console.log(playerMoveModule.whosTurn)
-        // for(let x = 0, y = 0; x < wincheck.length; x++) {
-        //     if(displayModule.gameMatrix[x][y] == winArray[x][y] &&
-        //         displayModule.gameMatrix[x][y + 1] == winArray[x][y + 1] &&
-        //         displayModule.gameMatrix[x][y + 2] == winArray[x][y + 2]) {
-        //         console.log("horizontal match")
-        //       }
-        //       else if(displayModule.gameMatrix[y][x] == winArray[y][x] &&
-        //         displayModule.gameMatrix[y + 1][x] == winArray[y + 1][x] &&
-        //         displayModule.gameMatrix[y + 2][x] == winArray[y + 2][x]) {
-        //         console.log("vertical match")
-        //       }
-        //   };
+        
+        let s = playerMoveModule.whosTurn.symbol;
+        let winArray = [[s, s, s],
+                        [s, s, s],
+                        [s, s, s]];
+        //horizontal match
+        for(let x = 0, y = 0; x < displayModule.gameMatrix.length; x++) {
+            if(displayModule.gameMatrix[x][y] == winArray[x][y] &&
+                displayModule.gameMatrix[x][y + 1] == winArray[x][y + 1] &&
+                displayModule.gameMatrix[x][y + 2] == winArray[x][y + 2]) {
+                console.log("horizontal match")
+              }
+            //vertical match
+            else if(displayModule.gameMatrix[y][x] == winArray[y][x] &&
+                displayModule.gameMatrix[y + 1][x] == winArray[y + 1][x] &&
+                displayModule.gameMatrix[y + 2][x] == winArray[y + 2][x]) {
+                console.log("vertical match")
+              }
+          };
+        
         
     };
 
