@@ -1,4 +1,4 @@
-//todo: fix bug - on a diagonal win, the losing player's symbol appears on the board and in the gameMatrix
+//todo: fix bug - on a win, the losing player's symbol appears on the last div played and in the gameMatrix
 let player = (name, symbol, winCount) => {
     return {name, symbol, winCount}
 }
@@ -32,7 +32,7 @@ const displayModule = (() => {
     };
 
     
-
+    // bug?
     let playMove = (symbol, row, column, event) => {
         playerMoveModule.playCounter++;
         gameMatrix[row][column] = symbol;
@@ -42,10 +42,10 @@ const displayModule = (() => {
     }
     
     let clearDisplay = () => {
-
+        winModule.isWinner = false;
         playerMoveModule.playCounter = 0;
-        for(let x = 0; x < gameMatrix.length; x++) {
-            for(let y = 0; y < gameMatrix[x].length; y++) {
+        for(let x = 0; x < 3; x++) {
+            for(let y = 0; y < 3; y++) {
                 gameMatrix[x][y] = "";
             };
         };
@@ -60,8 +60,7 @@ const displayModule = (() => {
         player2 = player("player 2", "O", 0);
         winModule.isWinner = false;
         playerMoveModule.playCounter = 0;
-        // possibly let loser go first in a fresh game if full game already played
-        //playerMoveModule.whosTurn = ;
+        // loser goes first in new game if full game already played
     }
     
     return {
@@ -122,7 +121,7 @@ let winModule = (() => {
     let isWinner = false;
 
     let checkWinner = () => {
-        console.log(playerMoveModule.playCounter)
+        console.log(displayModule.gameMatrix)
         let s = playerMoveModule.whosTurn.symbol;
         let winArray = [[s, s, s], [s, s, s], [s, s, s]];
 
@@ -154,7 +153,7 @@ let winModule = (() => {
                 displayModule.gameMatrix[x + 2][y + 2] == winArray[x + 2][y + 2]) {
                     playerMoveModule.whosTurn.winCount++;
                     isWinner = true;
-                    console.log("diagonal match \\")
+                    console.log("diagonal match left to right")
                     announceWinner()
               }
             else if(displayModule.gameMatrix[x][y + 2] == winArray[x][y + 2] &&
@@ -168,7 +167,8 @@ let winModule = (() => {
           }
           // check for a tie
           if(isWinner == false && playerMoveModule.playCounter > 8) {
-              console.log('tie')
+              console.log('tie');
+              displayModule.clearDisplay();
           }
     };
 
