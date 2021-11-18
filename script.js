@@ -121,21 +121,33 @@ let winModule = (() => {
         let winArray = [[s, s, s],
                         [s, s, s],
                         [s, s, s]];
-        //horizontal match
+        // horizontal match
         for(let x = 0, y = 0; x < displayModule.gameMatrix.length; x++) {
             if(displayModule.gameMatrix[x][y] == winArray[x][y] &&
                 displayModule.gameMatrix[x][y + 1] == winArray[x][y + 1] &&
                 displayModule.gameMatrix[x][y + 2] == winArray[x][y + 2]) {
                 console.log("horizontal match")
               }
-            //vertical match
+            // vertical match
             else if(displayModule.gameMatrix[y][x] == winArray[y][x] &&
                 displayModule.gameMatrix[y + 1][x] == winArray[y + 1][x] &&
                 displayModule.gameMatrix[y + 2][x] == winArray[y + 2][x]) {
                 console.log("vertical match")
               }
           };
-        
+          // diagonal
+          for(let x = 0, y = 0; x < 1; x++) {
+            if(displayModule.gameMatrix[x][y] == winArray[x][y] &&
+                displayModule.gameMatrix[x + 1][y + 1] == winArray[x + 1][y + 1] &&
+                displayModule.gameMatrix[x + 2][y + 2] == winArray[x + 2][y + 2]) {
+                console.log("diagonal match \\")
+              }
+            else if(displayModule.gameMatrix[x][y + 2] == winArray[x][y + 2] &&
+                displayModule.gameMatrix[x + 1][y + 1] == winArray[x + 1][y + 1] &&
+                displayModule.gameMatrix[x + 2][y] == winArray[x + 2][y]) {
+              console.log("diagonal match /")
+            }
+          }
         
     };
 
