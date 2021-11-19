@@ -1,5 +1,4 @@
-//todo: fix bug - after a win - every win the losing player's symbol appears on the last div played and in the gameMatrix
-//bug note: displayModule.playMove() is being called too early
+
 let player = (name, symbol, winCount) => {
     return {name, symbol, winCount}
 }
@@ -34,7 +33,7 @@ const displayModule = (() => {
     };
 
     
-    // bug?
+   
     let playMove = (symbol, row, column, event) => {
         playerMoveModule.playCounter++;
         gameMatrix[row][column] = symbol;
@@ -60,12 +59,12 @@ const displayModule = (() => {
     };
 
     let clearGame = () => {
-        player1 = player("player 1", "X", 0);
-        player2 = player("player 2", "O", 0);
+        player1.winCount = 0;
+        player2.winCount = 0;
         winModule.isWinner = false;
         playerMoveModule.playCounter = 0;
-        return;
-        // loser goes first in new game if full game already played
+        clearDisplay();
+      
     }
     
     return {
@@ -130,7 +129,7 @@ let winModule = (() => {
     // I bet you will find that you can greatly simplify this function
     // After all, there are only so many ways to determine a winner in a 3x3 tic-tac-toe board
     let checkWinner = () => {
-        console.log(displayModule.gameMatrix)
+        
         let s = playerMoveModule.whosTurn.symbol;
         let winArray = [[s, s, s], [s, s, s], [s, s, s]];
 
@@ -186,6 +185,7 @@ let winModule = (() => {
     let announceWinner = () => {
         if(playerMoveModule.whosTurn.winCount > 2) {
             alert(playerMoveModule.whosTurn.name + " is the champion. game over.");
+           
             displayModule.clearGame();
         }
 
