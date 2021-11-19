@@ -29,7 +29,7 @@ const displayModule = (() => {
         document.getElementById("player2Name").textContent = player2.name;
         document.getElementById("player2WinCount").textContent = player2.winCount;
 
-        playerMoveModule.move()
+        
         return;
     };
 
@@ -187,11 +187,14 @@ let winModule = (() => {
         if(playerMoveModule.whosTurn.winCount > 2) {
             alert(playerMoveModule.whosTurn.name + " is the champion. game over.");
             displayModule.clearGame();
+        }
+
+        else if(playerMoveModule.whosTurn.winCount < 3) {
+            alert(playerMoveModule.whosTurn.name + " is the winner");
+        displayModule.clearDisplay()
         };
 
-        alert(playerMoveModule.whosTurn.name + " is the winner");
-        displayModule.clearDisplay();
-        return;
+        
     };
 
     return {
